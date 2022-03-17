@@ -1,0 +1,71 @@
+<div class="p-6">
+  <div class="header">
+    Product
+  </div>
+  <div class="h-96 overflow-y-scroll" (scroll)="onScroll($event)">
+    <div class="grid gap-4"
+      [ngClass]="{'grid-cols-2': perRow == 2, 'grid-cols-3': perRow == 3, 'grid-cols-4': perRow == 4, 'grid-cols-5': perRow == 5}">
+      <div class="h-auto p-4 shadow" *ngFor="let row of productList">
+        <div class="h-48 backgroud-fill w-full"
+          [ngStyle]="{ 'background-image': 'url(' + baseUrl + row.itemImage + ')'}">
+
+        </div>
+        <div>
+          <p class="py-4" [innerText]="row.itemName"></p>
+        </div>
+        <div class="flex border-t-1 pt-3 items-center justify-between border-gray-300">
+          <div [innerText]="'$' + row.itemPrice">
+
+          </div>
+          <div>
+            <button class="btn-danger" (click)="addToCart(row)">Add to cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="p-6">
+  <div class="header">
+    Your card details
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Product detail</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Sub total</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of cart">
+        <td [innerText]="row.itemName"></td>
+        <td [innerText]="row.itemPrice"></td>
+        <td >
+          <div class="flex">
+            <div class="h-10 w-10 point">
+              +
+            </div>
+            <div>
+                <input class="border-2" type="number" [value]="row.quantity" />
+            </div>
+            <div class="pl-10 h-10 w-10">
+              -
+            </div>
+          </div>
+        </td>
+        <td [innerText]="row.quantity * row.itemPrice"></td>
+      </tr>     
+    </tbody>
+    <tfoot>
+      <tr>
+        
+           <th></th>
+           <th></th>
+           <th></th>
+           <th>Total:  $ {{total | async }}</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>

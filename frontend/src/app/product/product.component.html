@@ -1,0 +1,100 @@
+<div class="border-2 border-blue-500 h-auto m-24">
+  <div class="bg-blue-500 pt-4 pl-2">
+    <ul class="flex flex-wrap -mb-px">
+      <li class="mr-2">
+        <a href="javascript:void(0)" (click)="activeTab=0"
+          [ngClass]="{'border-2 border-white text-blue-500 bg-white': activeTab == 0, 'text-white ': activeTab != 0}"
+          class="inline-block py-4 px-4 text-sm font-medium text-center rounded-t-lg">Product
+          Add</a>
+      </li>
+      <li class="mr-2">
+        <a href="javascript:void(0)" (click)="activeTab=1"
+          [ngClass]="{'border-2 border-white text-blue-500 bg-white': activeTab == 1, 'text-white ': activeTab != 1}"
+          class="inline-block py-4 px-4 text-sm font-medium text-center  rounded-t-lg" aria-current="page">Product
+          List</a>
+      </li>
+    </ul>
+  </div>
+  <div class="tab-content">
+    <div [ngClass]="{'show': activeTab == 0, 'hidden': activeTab != 0}">
+      <form class="px-8 pt-6 pb-8 mb-4" id="myForm" [formGroup]="productForm" (ngSubmit)="submit()">
+        <div class="input-group">
+          <label for="itemName">
+            Item Name
+          </label>
+          <div class="input">
+            <input formControlName="itemName" id="itemName" type="text" name="itemName" />
+            <div class="form-control-feedback"
+              *ngIf="pf['itemName'].errors && (pf['itemName'].dirty || pf['itemName'].touched)">
+              <p class="error" *ngIf="pf['itemName'].errors?.['required']">Item name is required</p>
+              <p class="error" *ngIf="pf['itemName'].errors?.['maxlength']"> Maximum 50 characters are allow </p>
+              <p class="error" *ngIf="pf['itemName'].errors?.['pattern']"> Not allow spaces in
+                first and last. </p>
+            </div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="itemPrice">
+            Item Price
+          </label>
+          <div class="input">
+            <input id="itemPrice" formControlName="itemPrice" name="itemPrice" type="number" />
+            <div class="form-control-feedback"
+              *ngIf="pf['itemPrice'].errors && (pf['itemPrice'].dirty || pf['itemPrice'].touched)">
+              <p class="error" *ngIf="pf['itemPrice'].errors?.['required']">Item price is required</p>
+              <p class="error" *ngIf="pf['itemPrice'].errors?.['min']"> Item price must not be less than 1</p>
+              <p class="error" *ngIf="pf['itemPrice'].errors?.['max']"> Item price must not be greater than 99999.99</p>
+              <p class="error" *ngIf="pf['itemPrice'].errors?.['pattern']"> Only allow number. </p>
+            </div>
+          </div>
+
+        </div>
+        <div class="input-group">
+          <label for="itemImage">
+            Item Image
+          </label>
+          <div class="input">
+            <input id="itemImage" (change)="updateFile($event)" formControlName="itemImage" name="itemImage" type="file"
+              accept="image/*" />
+            <div class="form-control-feedback"
+              *ngIf="pf['itemPrice'].errors && (pf['itemImage'].dirty || pf['itemImage'].touched)">
+              <p class="error" *ngIf="pf['itemImage'].errors?.['required']">Item image is required</p>
+            </div>
+          </div>
+        </div>
+        <div class="input-group">
+          <div class="col-span-2"></div>
+          <button class="btn-success col-span-10" type="submit">
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="px-8 pt-6 pb-8" [ngClass]="{'show': activeTab == 1, 'hidden': activeTab != 1}">
+      <div class="h-96 overflow-y-scroll" (scroll)="onScroll($event)">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Product detail</th>
+              <th>Price</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of productList">
+              <td><img [src]="baseUrl + row.itemImage" class="h-10 w-10" /></td>
+              <td [innerText]="row.itemName"></td>
+              <td [innerText]="row.itemPrice"></td>
+              <td>
+                <button class="btn-success" (click)="edit(row)">Edit</button>
+                <button class="btn-danger" (click)="delete(row.itemId)">Delete</button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
