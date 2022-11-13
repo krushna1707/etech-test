@@ -7,7 +7,6 @@ $ npm install
 
 ## Running the app
 
-```bash
 # development
 $ Run ```bash npm run start``` for a dev server. server run on `http://localhost:3000/`
 
