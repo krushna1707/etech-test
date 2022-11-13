@@ -9,7 +9,7 @@ $ npm install
 
 ```bash
 # development
-$ Run `npm run start` for a dev server. server run on `http://localhost:3000/`
+$ Run ```bash npm run start``` for a dev server. server run on `http://localhost:3000/`
 
 # watch mode
 $ Run `npm run start:dev` for a dev server with watch.   server run on `http://localhost:3000/`
